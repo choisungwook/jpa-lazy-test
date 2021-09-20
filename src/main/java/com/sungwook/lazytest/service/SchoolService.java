@@ -22,8 +22,10 @@ public class SchoolService {
 
     @Transactional
     public Long CreateSchool(String name){
-        isExistSchool(name);
+        //step1 유효성 검사
+        ValidIsExistSchool(name);
 
+        //step2 학교 생성
         School new_school = School.builder()
                 .name(name)
                 .build();
@@ -33,11 +35,32 @@ public class SchoolService {
         return save_school.getId();
     }
 
-    private void isExistSchool(String name){
-        Optional<School> find_school = schoolRepository.findByName(name);
+    /***
+     * 학교가 이미 등록되었는지 확인
+     * @param name 학교이름
+     * @return True/False
+     */
+    @Transactional(readOnly = true)
+    public School findByName(String name){
+        School find_school = schoolRepository.findByName(name)
+                .orElseThrow(() -> new IllegalStateException("학교가 존재하지 않습니다"));
 
-        if(find_school.isPresent()){
-            throw new IllegalStateException("이미 존재하는 학교입니다");
+        return find_school;
+    }
+
+    /***
+     * 학교가 이미 등록되었는지 검사
+     *
+     * 학교가 이미 존재하면 예외
+     * @param name
+     */
+    @Transactional(readOnly = true)
+    private void ValidIsExistSchool(String name){
+        try{
+            School find_school = findByName(name);
+            throw new IllegalStateException("학교가 이미 존재합니다");
+        }catch (IllegalStateException e){
+            // 학교가 존재하지 않는 것이 정상
         }
     }
 }
