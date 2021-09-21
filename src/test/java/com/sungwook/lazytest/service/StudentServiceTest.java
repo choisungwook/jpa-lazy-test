@@ -1,6 +1,9 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.controller.dto.request.RequestAddClassroomFromStudentDTO;
+import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
 import com.sungwook.lazytest.controller.dto.request.RequestCreateStudentDTO;
+import com.sungwook.lazytest.repository.ClassroomRepository;
 import com.sungwook.lazytest.repository.StudentRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,10 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class StudentServiceTest {
     @Autowired StudentService studentService;
     @Autowired StudentRepository studentRepository;
+    @Autowired ClassroomService classroomService;
+    @Autowired ClassroomRepository classroomRepository;
 
     @AfterEach
     public void AfterEach(){
         studentRepository.deleteAllInBatch();
+        classroomRepository.deleteAllInBatch();
     }
 
     @Test
@@ -40,4 +46,27 @@ class StudentServiceTest {
          */
         assertDoesNotThrow(() -> studentService.CreateStudent(student_name));
     }
+
+    @Test
+    @DisplayName("학생 생성과 반등록")
+    public void CreateStudentWithClassroom(){
+        // 학생 생성
+        String student_name = "demo_student1";
+        RequestCreateStudentDTO request_dto = new RequestCreateStudentDTO();
+        request_dto.setStudent_name(student_name);
+        assertDoesNotThrow(() -> studentService.CreateStudent(student_name));
+
+        // 반 생성
+        String classroom_name = "classroom1";
+        RequestCreateClassroomDTO requestCreateClassroomDTO = new RequestCreateClassroomDTO();
+        requestCreateClassroomDTO.setClassroom_name(classroom_name);
+        assertDoesNotThrow(() -> classroomService.CreateClassroom(requestCreateClassroomDTO));
+
+        // 반에 학생 등록
+        RequestAddClassroomFromStudentDTO requestAddClassroomFromStudentDTO = new RequestAddClassroomFromStudentDTO();
+        requestAddClassroomFromStudentDTO.setClassroom_name(classroom_name);
+        requestAddClassroomFromStudentDTO.setStudent_name(student_name);
+        studentService.AddClassroom(requestAddClassroomFromStudentDTO);
+    }
+    
 }
