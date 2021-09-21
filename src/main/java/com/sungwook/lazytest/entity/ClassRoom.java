@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /***
  * 학교 반 도메인
@@ -27,6 +25,12 @@ public class ClassRoom {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
+
+    @Builder
+    public ClassRoom(String name, School school) {
+        this.name = name;
+        this.school = school;
+    }
 
     /***
      * 반을 학교에 등록
