@@ -23,7 +23,7 @@ class SchoolServiceTest {
 
     @AfterEach
     public void AfterEach(){
-        schoolRepository.deleteAll();
+        schoolRepository.deleteAllInBatch();
     }
 
     @Test
