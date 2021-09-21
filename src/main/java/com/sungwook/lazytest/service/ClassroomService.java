@@ -1,7 +1,7 @@
 package com.sungwook.lazytest.service;
 
-import com.sungwook.lazytest.controller.dto.RequestAddSchoolFromClassroomDto;
-import com.sungwook.lazytest.controller.dto.RequestCreateClassroomDTO;
+import com.sungwook.lazytest.controller.dto.request.RequestAddSchoolFromClassroomDto;
+import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
 import com.sungwook.lazytest.entity.School;
 import com.sungwook.lazytest.repository.ClassroomRepository;

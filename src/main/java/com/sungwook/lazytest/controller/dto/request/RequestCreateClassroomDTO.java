@@ -1,14 +1,14 @@
-package com.sungwook.lazytest.controller.dto;
+package com.sungwook.lazytest.controller.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /***
- * 반을 학교에 등록하는 dto
+ * 반 생성 request dto
  */
 @Getter
 @Setter
-public class RequestAddSchoolFromClassroomDto {
+public class RequestCreateClassroomDTO {
     private String school_name;
     private String classroom_name;
 }
