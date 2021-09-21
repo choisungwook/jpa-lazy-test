@@ -1,6 +1,6 @@
 package com.sungwook.lazytest.service;
 
-import com.sungwook.lazytest.controller.dto.request.RequestAddSchoolFromClassroomDto;
+import com.sungwook.lazytest.controller.dto.request.RequestAddSchoolFromClassroomDTO;
 import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
 import com.sungwook.lazytest.entity.School;
@@ -41,7 +41,7 @@ public class ClassroomService {
      * @param request_dto
      */
     @Transactional
-    public void AddSchool(RequestAddSchoolFromClassroomDto request_dto){
+    public void AddSchool(RequestAddSchoolFromClassroomDTO request_dto){
         ClassRoom find_classroom = findByName(request_dto.getClassroom_name());
         School find_school = schoolService.findByName(request_dto.getSchool_name());
 
