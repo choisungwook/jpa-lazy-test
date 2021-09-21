@@ -9,6 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RequestCreateClassroomDTO {
-    private String school_name;
     private String classroom_name;
 }

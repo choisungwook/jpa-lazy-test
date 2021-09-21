@@ -49,7 +49,6 @@ class ClassroomServiceTest {
     public void CreateClassroom(){
         String classroom_name = "classroom1";
         RequestCreateClassroomDTO requestCreateClassroomDTO = new RequestCreateClassroomDTO();
-        requestCreateClassroomDTO.setSchool_name("");
         requestCreateClassroomDTO.setClassroom_name(classroom_name);
 
         // 예외가 발생하지 않으면 성공
@@ -62,7 +61,6 @@ class ClassroomServiceTest {
         // 반 생성
         String classroom_name = "classroom1";
         RequestCreateClassroomDTO requestCreateClassroomDTO = new RequestCreateClassroomDTO();
-        requestCreateClassroomDTO.setSchool_name("");
         requestCreateClassroomDTO.setClassroom_name(classroom_name);
         assertDoesNotThrow(() -> classroomService.CreateClassroom(requestCreateClassroomDTO));
 
@@ -95,7 +93,6 @@ class ClassroomServiceTest {
         System.out.println("step1. classroom 생성 시작");
         String classroom_name = "classroom1";
         RequestCreateClassroomDTO requestCreateClassroomDTO = new RequestCreateClassroomDTO();
-        requestCreateClassroomDTO.setSchool_name("");
         requestCreateClassroomDTO.setClassroom_name(classroom_name);
         assertDoesNotThrow(() -> classroomService.CreateClassroom(requestCreateClassroomDTO));
         System.out.println("step1. classroom 생성 완료\n");

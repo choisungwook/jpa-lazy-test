@@ -16,10 +16,15 @@ public class ClassroomService {
     private final SchoolService schoolService;
     private final ClassroomRepository classroomRepository;
 
+    /***
+     * 반을 생성할 떄는 학교에 등록하지 않아도 된다.
+     * @param request_dto
+     * @return
+     */
     @Transactional
     public Long CreateClassroom(RequestCreateClassroomDTO request_dto){
         // 유효성 검사
-        ValidCheck(request_dto.getSchool_name(), request_dto.getClassroom_name());
+        CreateValidCheck(request_dto.getClassroom_name());
 
         ClassRoom new_class = ClassRoom.builder()
         .name(request_dto.getClassroom_name())
@@ -50,15 +55,10 @@ public class ClassroomService {
 
     /***
      * 유효성 검사
-     * @param school_name 학교이름
      * @param classroom_name 반이름
      */
-    public void ValidCheck(String school_name, String classroom_name){
-
-        // step1. 학교가 존재하는지 검사 -> 존재하지 않으면 예외발생
-        isExistClassroom(school_name);
-
-        // step1. 반이 있는지 검사 -> 있으면 예외발생
+    public void CreateValidCheck(String classroom_name){
+        // 반이 있는지 검사 -> 있으면 예외발생
         isExistClassroom(classroom_name);
     }
 
