@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-container fluid>
     <h1>This is helloworld page.</h1>
-  </div>
+  </v-container>
 </template>
 
 <script>
