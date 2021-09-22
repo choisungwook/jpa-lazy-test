@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vuejs-signup-demo
+  namespace: __NAMESPACE__
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vuejs-signup-demo
+  template:
+    metadata:
+      labels:
+        app: vuejs-signup-demo
+    spec:
+      containers:
+        - name: vuejs-signup-demo
+          image: __IMAGE_NAME__
+          resources:
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 80
+          env:
+            - name: TZ
+              value: Asia/Seoul
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vuejs-signup-demo
+  namespace: __NAMESPACE__
+spec:
+  selector:
+    app: vuejs-signup-demo
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: __NODEPORT__
+  type: NodePort
