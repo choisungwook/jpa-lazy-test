@@ -1,5 +1,6 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.controller.dto.request.RequestAddClassroomFromStudentDTO;
 import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
 import com.sungwook.lazytest.controller.dto.request.RequestCreateStudentDTO;
@@ -45,6 +46,18 @@ class StudentServiceTest {
          *         (null, ?, ?)
          */
         assertDoesNotThrow(() -> studentService.CreateStudent(student_name));
+    }
+
+    @Test
+    @DisplayName("학생 중복 생성")
+    public void CreateStudentDuplicate(){
+        String student_name = "demo_student1";
+        RequestCreateStudentDTO request_dto = new RequestCreateStudentDTO();
+        request_dto.setStudent_name(student_name);
+        assertDoesNotThrow(() -> studentService.CreateStudent(student_name));
+        
+        // 예외가 발생하면 성공
+        assertThrows(FailValidation.class, () -> studentService.CreateStudent(student_name));
     }
 
     @Test

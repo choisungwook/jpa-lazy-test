@@ -1,5 +1,7 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.common.exceptions.DataNotInDatabase;
+import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.controller.dto.request.RequestAddClassroomFromStudentDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
 import com.sungwook.lazytest.entity.Student;
@@ -8,11 +10,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class StudentService {
     private final StudentRepository studentRepository;
@@ -20,7 +24,10 @@ public class StudentService {
 
     @Transactional
     public Long CreateStudent(String name){
-        CreateValidCheck(name);
+        if(!CreateValidCheck(name)){
+            log.error("[학생 생성] 학생이 이미 존재합니다");
+            throw new FailValidation("학생이 이미 존재합니다");
+        }
 
         Student new_student = Student.builder()
                 .name(name)
@@ -38,7 +45,7 @@ public class StudentService {
 
     public Student findByName(String name){
         Student find_student = studentRepository.findByName(name)
-                .orElseThrow(() -> new IllegalStateException("학생이 존재하지 않습니다"));
+                .orElseThrow(() -> new DataNotInDatabase("학생이 존재하지 않습니다"));
 
         return find_student;
     }
@@ -48,12 +55,13 @@ public class StudentService {
      * 유효성 검사 실패시 예외발생
      * @param name 학생 이름
      */
-    private void CreateValidCheck(String name){
+    private boolean CreateValidCheck(String name){
         try{
             Student find_student = findByName(name);
-            throw new IllegalStateException("학생이 이미 존재합니다");
-        }catch (IllegalStateException e){
+            return false;
+        }catch (DataNotInDatabase e){
             //학생이 존재하지 않으면 정상
+            return true;
         }
     }
 
@@ -67,14 +75,14 @@ public class StudentService {
         ClassRoom find_classroom;
         try{
             find_student = findByName(request_dto.getStudent_name());
-        }catch (IllegalStateException e){
-            throw new IllegalStateException("학생이 존재하지 않습니다.");
+        }catch (DataNotInDatabase e){
+            throw new FailValidation("학생이 존재하지 않습니다.");
         }
 
         try{
             find_classroom = classroomService.findByName(request_dto.getClassroom_name());
-        }catch (IllegalStateException e){
-            throw new IllegalStateException("반이 존재하지 않습니다.");
+        }catch (DataNotInDatabase e){
+            throw new FailValidation("반이 존재하지 않습니다.");
         }
 
         return AddClassroomValidated.builder()
