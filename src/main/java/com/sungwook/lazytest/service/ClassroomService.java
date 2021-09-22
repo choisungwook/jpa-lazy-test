@@ -74,7 +74,12 @@ public class ClassroomService {
      */
     public boolean CreateValidCheck(String classroom_name){
         // 반이 있는지 검사 -> 있으면 예외발생
-        return isExistClassroom(classroom_name);
+        boolean exist_classroom = isExistClassroom(classroom_name);
+
+        if(exist_classroom)
+            return false;
+
+        return true;
     }
 
     /***
@@ -85,11 +90,10 @@ public class ClassroomService {
     private boolean isExistClassroom(String name){
         try{
             findByName(name);
-            log.error(String.format("[반생성] 오류 발생 -> %s는 이미 존재합니다", name));
-            return false;
+            return true;
         }catch (DataNotInDatabase e){
             // 반이 없어 예외가 발생하면 정상
-            return true;
+            return false;
         }
     }
 }
