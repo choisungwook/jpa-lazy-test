@@ -1,5 +1,6 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.entity.School;
 import com.sungwook.lazytest.repository.SchoolRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -9,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @SpringBootTest
 class SchoolServiceTest {
@@ -42,7 +41,7 @@ class SchoolServiceTest {
         Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(school_name));
 
         // 오류 발생시 성공
-        Assertions.assertThrows(IllegalStateException.class,
+        Assertions.assertThrows(FailValidation.class,
             () -> schoolService.CreateSchool(school_name)
         );
     }

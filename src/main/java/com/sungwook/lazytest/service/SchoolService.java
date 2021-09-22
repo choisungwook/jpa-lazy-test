@@ -1,13 +1,12 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.entity.School;
 import com.sungwook.lazytest.repository.SchoolRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,9 @@ public class SchoolService {
     @Transactional
     public Long CreateSchool(String name){
         //step1 유효성 검사
-        ValidIsExistSchool(name);
+        if(!ValidCreateSchool(name)){
+            throw new FailValidation("이미 학교가 존재합니다.");
+        }
 
         //step2 학교 생성
         School new_school = School.builder()
@@ -49,18 +50,31 @@ public class SchoolService {
     }
 
     /***
-     * 학교가 이미 등록되었는지 검사
-     *
-     * 학교가 이미 존재하면 예외
+     *  학교 생성 전 유효성검사
      * @param name
+     * @return True(성공)
+     */
+    private boolean ValidCreateSchool(String name){
+        boolean exist_school = isExistSchool(name);
+
+        if(exist_school)
+            return false;
+
+        return true;
+    }
+
+    /***
+     * 학교가 데이터베이스에 있는지 확인
+     * @param name
+     * @return True(존재)
      */
     @Transactional(readOnly = true)
-    private void ValidIsExistSchool(String name){
+    private boolean isExistSchool(String name){
         try{
             School find_school = findByName(name);
-            throw new IllegalStateException("학교가 이미 존재합니다");
+            return true;
         }catch (IllegalStateException e){
-            // 학교가 존재하지 않는 것이 정상
+            return false;
         }
     }
 }
