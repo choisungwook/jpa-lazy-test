@@ -1,20 +1,23 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Calories</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in desserts" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>{{ item.calories }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+  <v-container fluid>
+    <v-btn class="blue white" elevation="2" outlined x-large>학교 추가</v-btn>
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+            <th class="text-left">Calories</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in desserts" :key="item.name">
+            <td>{{ item.name }}</td>
+            <td>{{ item.calories }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+  </v-container>
 </template>
 
 <script>
