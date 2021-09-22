@@ -1,5 +1,6 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.common.exceptions.DataNotInDatabase;
 import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.entity.School;
 import com.sungwook.lazytest.repository.SchoolRepository;
@@ -44,7 +45,7 @@ public class SchoolService {
     @Transactional(readOnly = true)
     public School findByName(String name){
         School find_school = schoolRepository.findByName(name)
-                .orElseThrow(() -> new IllegalStateException("학교가 존재하지 않습니다"));
+                .orElseThrow(() -> new DataNotInDatabase("학교가 존재하지 않습니다"));
 
         return find_school;
     }
@@ -73,7 +74,7 @@ public class SchoolService {
         try{
             School find_school = findByName(name);
             return true;
-        }catch (IllegalStateException e){
+        }catch (DataNotInDatabase e){
             return false;
         }
     }
