@@ -42,7 +42,7 @@ class ClassroomControllerTest {
         mockMvc.perform(post("/api/v1/classroom/")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print());
     }
 
@@ -58,7 +58,7 @@ class ClassroomControllerTest {
         mockMvc.perform(post("/api/v1/classroom/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print());
 
         mockMvc.perform(post("/api/v1/classroom/")
@@ -79,7 +79,7 @@ class ClassroomControllerTest {
         mockMvc.perform(post("/api/v1/classroom/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print());
         
         // 전체조회

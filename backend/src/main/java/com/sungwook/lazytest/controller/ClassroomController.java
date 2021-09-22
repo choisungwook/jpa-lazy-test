@@ -2,11 +2,13 @@ package com.sungwook.lazytest.controller;
 
 import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
 import com.sungwook.lazytest.controller.dto.response.classroom.GetClassroomsConverted;
+import com.sungwook.lazytest.controller.dto.response.classroom.ResponseCreatedClassroomDTO;
 import com.sungwook.lazytest.controller.dto.response.classroom.ResponseGetClassroomsDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
 import com.sungwook.lazytest.service.ClassroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,10 +38,13 @@ public class ClassroomController {
     }
 
     @PostMapping(value = "/")
-    public void CreateClassroom(@RequestBody RequestCreateClassroomDTO requestCreateClassroomDTO){
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseCreatedClassroomDTO CreateClassroom(@RequestBody RequestCreateClassroomDTO requestCreateClassroomDTO){
         log.debug("------------ 반생성 API 시작  --------------");
-        classroomService.CreateClassroom(requestCreateClassroomDTO);
+        Long created_id = classroomService.CreateClassroom(requestCreateClassroomDTO);
         log.debug("------------ 반생성 API 종료  --------------\n");
+
+        return new ResponseCreatedClassroomDTO(created_id);
     }
 
 }
