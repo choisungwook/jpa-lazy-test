@@ -13,14 +13,17 @@ const routes = [
       {
         path: "/lazy/school",
         name: "school",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/school/School.vue"),
+        component: () => import("@/views/school/School.vue"),
+      },
+      {
+        path: "/lazy/classroom",
+        name: "classroom",
+        component: () => import("@/views/classroom/Classroom.vue"),
       },
       {
         path: "/lazy/home",
         name: "home",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Home.vue"),
+        component: () => import("@/views/Home.vue"),
       },
       {
         path: "/lazy/helloworld",
