@@ -3,6 +3,7 @@ package com.sungwook.lazytest.config;
 import com.sungwook.lazytest.common.exceptions.ErrorResponse;
 import com.sungwook.lazytest.common.exceptions.FailValidation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,7 +29,10 @@ public class GlobalExceptionHandler {
         log.error(String.format("%s -> %s", message, e.getMessage()));
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT, message, errors);
 
-        return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+
+        return new ResponseEntity<>(errorResponse, headers, errorResponse.getStatus());
     }
 
 }
