@@ -39,7 +39,7 @@ pipeline {
         }
         stage('deploy'){
             steps{
-                dir('backend/Alpha'){
+                dir('backend'){
                     withCredentials([string(credentialsId: 'dockerID', variable: 'dockerID')]) {
                         sh 'sed -i "s/__IMAGE_NAME__/${dockerID}\\/${DOCKER_IMAGENAME}/g" kubernetes-deploy.yaml'
                         sh 'sed -i "s/__NODEPORT__/${NODEPORT}/g" kubernetes-deploy.yaml'
