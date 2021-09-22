@@ -25,7 +25,7 @@ public class StudentService {
     @Transactional
     public Long CreateStudent(String name){
         if(!CreateValidCheck(name)){
-            log.error("[학생 생성] 학생이 이미 존재합니다");
+            log.error(String.format("[학생 생성] 에러 -> %s학생이 이미 존재합니다", name));
             throw new FailValidation("학생이 이미 존재합니다");
         }
 
@@ -76,12 +76,14 @@ public class StudentService {
         try{
             find_student = findByName(request_dto.getStudent_name());
         }catch (DataNotInDatabase e){
+            log.error(String.format("[학생을 반에 추가] 에러 -> %s학생이 존재하지 않습니다.", request_dto.getStudent_name()));
             throw new FailValidation("학생이 존재하지 않습니다.");
         }
 
         try{
             find_classroom = classroomService.findByName(request_dto.getClassroom_name());
         }catch (DataNotInDatabase e){
+            log.error(String.format("[학생을 반에 추가] 에러 -> %s반이 존재하지 않습니다.", request_dto.getClassroom_name()));
             throw new FailValidation("반이 존재하지 않습니다.");
         }
 
