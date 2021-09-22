@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,6 +65,27 @@ class ClassroomControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
                 .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("classrooms 전체 조회")
+    public void GetClassrooms() throws Exception {
+        String classroom_name = "classroom1";
+        RequestCreateClassroomDTO requestCreateClassroomDTO = new RequestCreateClassroomDTO();
+        requestCreateClassroomDTO.setClassroom_name(classroom_name);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(post("/api/v1/classroom/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
+                .andExpect(status().isOk())
+                .andDo(print());
+        
+        // 전체조회
+        mockMvc.perform(get("/api/v1/classroom/")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }

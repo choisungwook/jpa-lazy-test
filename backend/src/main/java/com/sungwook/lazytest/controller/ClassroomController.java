@@ -1,6 +1,8 @@
 package com.sungwook.lazytest.controller;
 
 import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
+import com.sungwook.lazytest.controller.dto.response.classroom.GetClassroomsConverted;
+import com.sungwook.lazytest.controller.dto.response.classroom.ResponseGetClassroomsDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
 import com.sungwook.lazytest.service.ClassroomService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,12 +20,19 @@ public class ClassroomController {
     private final ClassroomService classroomService;
 
     @GetMapping(value = "/")
-    public List<ClassRoom> GetClassrooms(){
+    public ResponseGetClassroomsDTO GetClassrooms(){
         log.debug("------------ 반전체 조회 API 시작 --------------");
         List<ClassRoom> classRooms = classroomService.GetAll();
-        log.debug("------------ 반전체 조회 API 종료 --------------");
 
-        return classRooms;
+        List<GetClassroomsConverted> converted_classroom = classRooms.stream()
+                .map(classRoom ->
+                        GetClassroomsConverted.builder()
+                                .classroom_name(classRoom.getName())
+                                .build())
+                .collect(Collectors.toList());
+        log.debug("------------ 반전체 조회 API 종료 --------------\n");
+
+        return new ResponseGetClassroomsDTO(converted_classroom);
     }
 
     @PostMapping(value = "/")
