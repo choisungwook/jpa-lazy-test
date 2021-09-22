@@ -1,6 +1,6 @@
 const state = {
   menus: [
-    { title: "학교", icon: "mdi-view-dashboard", to: "/lazy/home" },
+    { title: "학교", icon: "mdi-view-dashboard", to: "/lazy/school" },
     { title: "반", icon: "mdi-image", to: "/lazy/helloworld" },
     { title: "학생", icon: "mdi-image", to: "/lazy/home" },
   ],

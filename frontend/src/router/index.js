@@ -11,6 +11,12 @@ const routes = [
     component: DefaultLayout,
     children: [
       {
+        path: "/lazy/school",
+        name: "school",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/school/School.vue"),
+      },
+      {
         path: "/lazy/home",
         name: "home",
         component: () =>
