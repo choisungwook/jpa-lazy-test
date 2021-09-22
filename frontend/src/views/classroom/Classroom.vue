@@ -1,5 +1,8 @@
 <template>
   <v-container fluid>
+    <v-btn class="blue white" elevation="2" outlined x-large @click="get_all">
+      반 전체조회
+    </v-btn>
     <v-dialog v-model="dialog">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -42,14 +45,14 @@
       <template v-slot:default>
         <thead>
           <tr>
-            <th class="text-left">Name</th>
-            <th class="text-left">Calories</th>
+            <th class="text-left">학교 이름</th>
+            <th class="text-left">반 이름</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in desserts" :key="item.name">
-            <td>{{ item.name }}</td>
-            <td>{{ item.calories }}</td>
+          <tr v-for="item in classrooms" :key="item.classroom_name">
+            <td>{{ item.school_name }}</td>
+            <td>{{ item.classroom_name }}</td>
           </tr>
         </tbody>
       </template>
@@ -66,57 +69,33 @@ export default {
   data: () => ({
     dialog: false,
     school_name: "",
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-      },
-      {
-        name: "Ice cream sandwich",
-        calories: 237,
-      },
-      {
-        name: "Eclair",
-        calories: 262,
-      },
-      {
-        name: "Cupcake",
-        calories: 305,
-      },
-      {
-        name: "Gingerbread",
-        calories: 356,
-      },
-      {
-        name: "Jelly bean",
-        calories: 375,
-      },
-      {
-        name: "Lollipop",
-        calories: 392,
-      },
-      {
-        name: "Honeycomb",
-        calories: 408,
-      },
-      {
-        name: "Donut",
-        calories: 452,
-      },
-      {
-        name: "KitKat",
-        calories: 518,
-      },
-    ],
+    classrooms: [],
   }),
 
   methods: {
     create() {
-      console.log(process.env);
       classroom_api
         .create_classroom(this.school_name)
+        .then(() => {
+          this.get_all();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.dialog = false;
+        });
+    },
+    get_all() {
+      classroom_api
+        .get_all()
         .then((response) => {
-          console.log(response.data);
+          const classroom_datas = response.data.classrooms;
+          for (let classroom_data of classroom_datas){
+            if (classroom_data.school_name === null)
+              classroom_data.school_name = "없음";
+          }
+          this.classrooms = classroom_datas;
         })
         .catch((error) => {
           console.log(error);
