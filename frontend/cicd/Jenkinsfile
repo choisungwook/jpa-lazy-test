@@ -12,20 +12,24 @@ pipeline {
 
     stages {
         stage('yarn install&build'){
-            steps{
-                sh 'yarn install'
-                sh 'yarn build'
+            dir('frontend'){
+                steps{
+                    sh 'yarn install'
+                    sh 'yarn build'
+                }
             }
         }
         stage('docker build&push'){
             steps{
-                sh 'cp cicd/* ./'
-                withCredentials([string(credentialsId: 'dockerID', variable: 'dockerID')]) {
-                    script{
-                        sh 'docker build -t ${dockerID}/${DOCKER_IMAGENAME} .'
-                        withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpassword', usernameVariable: 'dockeruser')]) {
-                            sh 'docker login -u ${dockeruser} -p ${dockerpassword}'
-                            sh 'docker push ${dockerID}/${DOCKER_IMAGENAME}'
+                dir('frontend'){
+                    sh 'cp cicd/* ./'
+                    withCredentials([string(credentialsId: 'dockerID', variable: 'dockerID')]) {
+                        script{
+                            sh 'docker build -t ${dockerID}/${DOCKER_IMAGENAME} .'
+                            withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpassword', usernameVariable: 'dockeruser')]) {
+                                sh 'docker login -u ${dockeruser} -p ${dockerpassword}'
+                                sh 'docker push ${dockerID}/${DOCKER_IMAGENAME}'
+                            }
                         }
                     }
                 }
@@ -33,11 +37,13 @@ pipeline {
         }
         stage('deploy'){
             steps{
-                withCredentials([string(credentialsId: 'dockerID', variable: 'dockerID')]) {
-                    sh 'sed -i "s/__IMAGE_NAME__/${dockerID}\\/${DOCKER_IMAGENAME}/g" kubernetes-deploy.yaml'
-                    sh 'sed -i "s/__NAMESPACE__/${NAMESPACE}/g" kubernetes-deploy.yaml'
-                    sh 'sed -i "s/__NODEPORT__/${NODEPORT}/g" kubernetes-deploy.yaml'
-                    sh 'kubectl apply -f kubernetes-deploy.yaml'
+                dir('frontend'){
+                    withCredentials([string(credentialsId: 'dockerID', variable: 'dockerID')]) {
+                        sh 'sed -i "s/__IMAGE_NAME__/${dockerID}\\/${DOCKER_IMAGENAME}/g" kubernetes-deploy.yaml'
+                        sh 'sed -i "s/__NAMESPACE__/${NAMESPACE}/g" kubernetes-deploy.yaml'
+                        sh 'sed -i "s/__NODEPORT__/${NODEPORT}/g" kubernetes-deploy.yaml'
+                        sh 'kubectl apply -f kubernetes-deploy.yaml'
+                    }
                 }
             }
         }
