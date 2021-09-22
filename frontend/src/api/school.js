@@ -1,10 +1,10 @@
 import http from "./http";
 
-export async function create_school(classroom_name) {
+export async function create_school(school_name) {
   return http.post(
     "/api/v1/classroom/",
     {
-      classroom_name,
+      school_name,
     },
     {
       "content-type": "application/json",
