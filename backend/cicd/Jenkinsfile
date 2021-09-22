@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    tools {maven "maven36"}
+
+    environment {
+        DOCKER_IMAGE = "springboot-jpa-school-backend"
+        TAG = "${BUILD_NUMBER}"
+        DOCKER_IMAGENAME = "${DOCKER_IMAGE}:${TAG}"
+        NODEPORT = "31111"
+        NAMESAPCE = "myproject"
+    }
+
+    stages {
+        stage('mvn test'){
+            steps{
+                dir('backend'){
+                    withMaven {
+                        sh 'mvn clean test'
+                    }
+                }
+            }
+        }
+        stage('project build'){
+            steps{
+                dir('backend'){
+                    withMaven {
+                        sh 'mvn package -DskipTests'
+                    }
+                }
+            }
+        }
+        stage('docker build&push'){
+            steps{
+                dir('backend'){
+                    sh 'cp cicd/* ./'
+                    withCredentials([string(credentialsId: 'dockerID', variable: 'dockerID')]) {
+                        script{
+                            sh 'docker build -t ${dockerID}/${DOCKER_IMAGENAME} .'
+                            withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpassword', usernameVariable: 'dockeruser')]) {
+                                sh 'docker login -u ${dockeruser} -p ${dockerpassword}'
+                                sh 'docker push ${dockerID}/${DOCKER_IMAGENAME}'
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        stage('deploy'){
+            steps{
+                dir('backend/Alpha'){
+                    withCredentials([string(credentialsId: 'dockerID', variable: 'dockerID')]) {
+                        sh 'sed -i "s/__IMAGE_NAME__/${dockerID}\\/${DOCKER_IMAGENAME}/g" kubernetes-deploy.yaml'
+                        sh 'sed -i "s/__NODEPORT__/${NODEPORT}/g" kubernetes-deploy.yaml'
+                        sh 'sed -i "s/__NAMESPACE__/${NAMESPACE}/g" kubernetes-deploy.yaml'
+                        sh 'kubectl apply -f kubernetes-deploy.yaml'
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myproject-school-backend
+  namespace: __NAMESPACE__
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myproject-school-backend
+  template:
+    metadata:
+      labels:
+        app: myproject-school-backend
+    spec:
+      containers:
+      - name: myproject-school-backend
+        image: __IMAGE_NAME__
+        env:
+        - name: TZ
+          value: Asia/Seoul
+        ports:
+        - containerPort: 10022
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myproject-school-backend
+  namespace: __NAMESPACE__
+spec:
+  type: NodePort
+  ports:
+  - port: 10022
+    targetPort: 10022
+    nodePort: __NODEPORT__
+  selector:
+    app: myproject-school-backend
