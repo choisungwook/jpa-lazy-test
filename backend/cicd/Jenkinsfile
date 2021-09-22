@@ -11,20 +11,11 @@ pipeline {
     }
 
     stages {
-        stage('mvn test'){
-            steps{
-                dir('backend'){
-                    withMaven {
-                        sh 'mvn clean test'
-                    }
-                }
-            }
-        }
         stage('project build'){
             steps{
                 dir('backend'){
                     withMaven {
-                        sh 'mvn package -DskipTests'
+                        sh 'mvn clean package'
                     }
                 }
             }
