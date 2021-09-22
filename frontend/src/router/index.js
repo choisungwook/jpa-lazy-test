@@ -1,43 +1,26 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import DefaultLayout from "@/layouts/default/Index";
-import AuthLayout from "@/layouts/auth/Index";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/vue-practice1",
+    path: "/lazy/",
     name: "Home",
     component: DefaultLayout,
     children: [
       {
-        path: "/vue-practice1/home",
+        path: "/lazy/home",
         name: "home",
-        // which is lazy-loaded when the route is visited.
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/Home.vue"),
       },
       {
-        path: "/vue-practice1/helloworld",
+        path: "/lazy/helloworld",
         name: "helloworld",
-        // which is lazy-loaded when the route is visited.
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/Helloworld.vue"),
-      },
-    ],
-  },
-  {
-    path: "/auth",
-    name: "Auth",
-    component: AuthLayout,
-    children: [
-      {
-        path: "/signup",
-        name: "signup",
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/auth/Signup.vue"),
       },
     ],
   },

@@ -2,24 +2,14 @@
   <v-app>
     <v-app-bar app primary dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>App bar title</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn flat @click="$router.push({ name: 'signup' })">
-        <span>회원가입</span>
-      </v-btn>
-
-      <v-btn flat>
-        <span>로그인</span>
-      </v-btn>
+      <v-toolbar-title>Springboot Lazy project</v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer app v-model="drawer">
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="text-h6"> Application </v-list-item-title>
-          <v-list-item-subtitle> subtext </v-list-item-subtitle>
+          <v-list-item-title class="text-h6"> 메뉴 </v-list-item-title>
+          <!-- <v-list-item-subtitle> subtext </v-list-item-subtitle> -->
         </v-list-item-content>
       </v-list-item>
 
