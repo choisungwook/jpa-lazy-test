@@ -1,5 +1,6 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.controller.dto.request.RequestAddSchoolFromClassroomDTO;
 import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
@@ -53,6 +54,19 @@ class ClassroomServiceTest {
 
         // 예외가 발생하지 않으면 성공
         assertDoesNotThrow(() -> classroomService.CreateClassroom(requestCreateClassroomDTO));
+    }
+
+    @Test
+    @DisplayName("반 중복생성-학교등록X")
+    public void CreateClassroomDuplicated(){
+        String classroom_name = "classroom1";
+        RequestCreateClassroomDTO requestCreateClassroomDTO = new RequestCreateClassroomDTO();
+        requestCreateClassroomDTO.setClassroom_name(classroom_name);
+
+        // 예외가 발생하지 않으면 성공
+        assertDoesNotThrow(() -> classroomService.CreateClassroom(requestCreateClassroomDTO));
+        // 예외가 발생하면 성공
+        assertThrows(FailValidation.class, () -> classroomService.CreateClassroom(requestCreateClassroomDTO));
     }
 
     @Test

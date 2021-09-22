@@ -1,17 +1,23 @@
 package com.sungwook.lazytest.service;
 
+import com.sungwook.lazytest.common.exceptions.DataNotInDatabase;
+import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.controller.dto.request.RequestAddSchoolFromClassroomDTO;
 import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
 import com.sungwook.lazytest.entity.School;
 import com.sungwook.lazytest.repository.ClassroomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ClassroomService {
     private final SchoolService schoolService;
     private final ClassroomRepository classroomRepository;
@@ -24,20 +30,28 @@ public class ClassroomService {
     @Transactional
     public Long CreateClassroom(RequestCreateClassroomDTO request_dto){
         // 유효성 검사
-        CreateValidCheck(request_dto.getClassroom_name());
+        if(!CreateValidCheck(request_dto.getClassroom_name())){
+            throw new FailValidation("이미 반이 존재합니다.");
+        }
+
+        log.debug("[반생성] 유효성 검사 통과");
 
         ClassRoom new_class = ClassRoom.builder()
-        .name(request_dto.getClassroom_name())
-        .build();
+                                        .name(request_dto.getClassroom_name())
+                                        .build();
 
         return classroomRepository.save(new_class).getId();
     }
 
     public ClassRoom findByName(String name){
         ClassRoom find_classroom = classroomRepository.findByName(name)
-                .orElseThrow(() -> new IllegalStateException("반 이름이 존재하지 않습니다"));
+                .orElseThrow(() -> new DataNotInDatabase("반 이름이 존재하지 않습니다"));
 
         return find_classroom;
+    }
+
+    public List<ClassRoom> GetAll(){
+        return classroomRepository.findAll();
     }
 
     /***
@@ -55,23 +69,27 @@ public class ClassroomService {
 
     /***
      * 유효성 검사
-     * @param classroom_name 반이름
+     * @param classroom_name
+     * @return true(성공), false(실패)
      */
-    public void CreateValidCheck(String classroom_name){
+    public boolean CreateValidCheck(String classroom_name){
         // 반이 있는지 검사 -> 있으면 예외발생
-        isExistClassroom(classroom_name);
+        return isExistClassroom(classroom_name);
     }
 
     /***
      * 반이 있는지 검사
      * @param name
+     * @return 존재(true), 미존재(false)
      */
-    private void isExistClassroom(String name){
+    private boolean isExistClassroom(String name){
         try{
             findByName(name);
-            throw new IllegalStateException("반 이름이 이미 존재합니다");
-        }catch (IllegalStateException e){
-            // 반이 없으면 정상
+            log.error(String.format("[반생성] 오류 발생 -> %s는 이미 존재합니다", name));
+            return false;
+        }catch (DataNotInDatabase e){
+            // 반이 없어 예외가 발생하면 정상
+            return true;
         }
     }
 }
