@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vuejs-signup-demo
+  name: myproject-school-frontend
   namespace: __NAMESPACE__
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: vuejs-signup-demo
+      app: myproject-school-frontend
   template:
     metadata:
       labels:
-        app: vuejs-signup-demo
+        app: myproject-school-frontend
     spec:
       containers:
-        - name: vuejs-signup-demo
+        - name: myproject-school-frontend
           image: __IMAGE_NAME__
           resources:
             limits:
@@ -32,11 +32,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vuejs-signup-demo
+  name: myproject-school-frontend
   namespace: __NAMESPACE__
 spec:
   selector:
-    app: vuejs-signup-demo
+    app: myproject-school-frontend
   ports:
   - port: 80
     targetPort: 80
