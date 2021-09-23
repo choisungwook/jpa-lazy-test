@@ -62,6 +62,7 @@
 
 <script>
 import * as classroom_api from "@/api/classroom";
+import axios from 'axios';
 
 export default {
   name: "Classroom",
@@ -73,17 +74,27 @@ export default {
   }),
 
   methods: {
+    // create() {
+    //   classroom_api
+    //     .create_classroom(this.school_name)
+    //     .then(() => {
+    //       this.get_all();
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    //     .finally(() => {
+    //       this.dialog = false;
+    //     });
+    // },
     create() {
-      classroom_api
-        .create_classroom(this.school_name)
+      axios
+        .get("/api/v1/classroom/")
         .then(() => {
           this.get_all();
         })
         .catch((error) => {
           console.log(error);
-        })
-        .finally(() => {
-          this.dialog = false;
         });
     },
     get_all() {
