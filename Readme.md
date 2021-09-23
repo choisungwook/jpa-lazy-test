@@ -1,4 +1,5 @@
 # 프로젝트 목적
+> 배포사이트: https://myproject.choicloudlab.com/lazy
 * JPA LAZY관계에서 어떻게 쿼리가 수행되는지 관찰
 * github issues를 이용하여 프로젝트 개발 이력 관리
 
@@ -15,7 +16,7 @@
 - [ ] junit5(Mock)으로 controller계층 테스트
 - [ ] cicd 생성(jenkins, dockerfile, minikube)
 - [ ] 공개적으로 배포될 시 jenkins에서 1시간에 1번 container rollout
-- [ ] frontend(vuejs) 프로젝트 생성과 연동 
+- [ ] frontend(vuejs) 프로젝트 생성과 연동
 
 <br>
 
