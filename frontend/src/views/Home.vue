@@ -59,10 +59,12 @@ export default {
         .catch((error) => {
           console.log("endpoint -> " + process.env.VUE_APP_ENDPOINT);
           console.log("ping failed");
-          console.log(error);
-          console.log(error.request);
-          console.log(error.message);
+          // console.log(error);
+          // console.log(error.request);
+          // console.log(error.message);
           console.log(error.config);
+          console.log(error.response);
+          console.log("done")
         });
     },
   }
