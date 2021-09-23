@@ -16,7 +16,7 @@ spec:
       hostAliases:
         - ip: "172.31.61.209"
           hostnames:
-            - "jpaschool.internallb.com"
+            - "jpaschool-backend.choicloudlab.com"
       containers:
         - name: myproject-school-frontend
           image: __IMAGE_NAME__
