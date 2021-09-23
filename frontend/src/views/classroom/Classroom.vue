@@ -62,7 +62,7 @@
 
 <script>
 import * as classroom_api from "@/api/classroom";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "Classroom",
@@ -89,11 +89,22 @@ export default {
     // },
     create() {
       axios
+        .get("/api/health")
+        .then(() => {
+          console.log("ping success");
+        })
+        .catch((error) => {
+          console.log("ping failed");
+          console.log(error);
+        });
+
+      axios
         .get("/api/v1/classroom/")
         .then(() => {
           this.get_all();
         })
         .catch((error) => {
+          console.log("get error");
           console.log(error);
         });
     },
