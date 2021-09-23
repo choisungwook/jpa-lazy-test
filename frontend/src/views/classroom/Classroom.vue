@@ -62,7 +62,7 @@
 
 <script>
 import * as classroom_api from "@/api/classroom";
-import axios from "axios";
+// import axios from "axios";
 
 export default {
   name: "Classroom",
@@ -74,44 +74,47 @@ export default {
   }),
 
   methods: {
-    // create() {
-    //   classroom_api
-    //     .create_classroom(this.school_name)
-    //     .then(() => {
-    //       this.get_all();
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     })
-    //     .finally(() => {
-    //       this.dialog = false;
-    //     });
-    // },
     create() {
-      axios
-        .get("/api/health")
+      classroom_api
+        .create_classroom(this.school_name)
         .then((response) => {
+          console.log("생성성공");
           console.log(response);
-          console.log(response.data);
-          console.log("ping success");
+          this.get_all();
+          console.log("\n");
         })
         .catch((error) => {
-          console.log("ping failed");
           console.log(error);
-        });
-
-      axios
-        .get("/api/v1/classroom/")
-        .then((response) => {
-          console.log("succsss");
-          console.log(response.data);
-          // this.get_all();
         })
-        .catch((error) => {
-          console.log("get error");
-          console.log(error);
+        .finally(() => {
+          this.dialog = false;
         });
     },
+    // create() {
+    //   axios
+    //     .get("/api/health")
+    //     .then((response) => {
+    //       console.log(response);
+    //       console.log(response.data);
+    //       console.log("ping success");
+    //     })
+    //     .catch((error) => {
+    //       console.log("ping failed");
+    //       console.log(error);
+    //     });
+
+    //   axios
+    //     .get("/api/v1/classroom/")
+    //     .then((response) => {
+    //       console.log("succsss");
+    //       console.log(response.data);
+    //       // this.get_all();
+    //     })
+    //     .catch((error) => {
+    //       console.log("get error");
+    //       console.log(error);
+    //     });
+    // },
     get_all() {
       classroom_api
         .get_all()
