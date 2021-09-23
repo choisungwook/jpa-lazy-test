@@ -16,7 +16,7 @@ export default {
   methods: {
     healthcheck() {
       axios
-        .get(process.env.VUE_APP_ENDPOINT + "/health")
+        .get("/api/health")
         .then((response) => {
           console.log("endpoint -> " + process.env.VUE_APP_ENDPOINT);
           console.log(response.data);
