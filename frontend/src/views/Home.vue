@@ -18,7 +18,7 @@ export default {
       axios
         .get(
           // process.env.VUE_APP_ENDPOINT + "/health",
-          "/health",
+          "https://jpaschool.choicloudlab.com/health",
           {},
           {
             "Access-Control-Allow-Origin": "*",

@@ -1,12 +1,12 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
-  devServer: {
-    proxy: {
-      "/": {
-        target: "https://jpaschool-backend.choicloudlab.com",
-        pathRewrite: { "^/": "" },
-        changeOrigin: true,
-      },
-    }
-  }
+  // devServer: {
+  //   proxy: {
+  //     "/": {
+  //       target: "http://localhost:",
+  //       pathRewrite: { "^/": "" },
+  //       changeOrigin: true,
+  //     },
+  //   }
+  // }
 };
