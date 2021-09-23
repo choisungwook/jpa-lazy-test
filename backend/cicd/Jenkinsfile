@@ -8,6 +8,7 @@ pipeline {
         DOCKER_IMAGENAME = "${DOCKER_IMAGE}:${TAG}"
         NODEPORT = "31111"
         NAMESAPCE = "myproject"
+        APP_NAME = "myproject-school-backend"
     }
 
     stages {
@@ -45,6 +46,7 @@ pipeline {
                         sh 'sed -i "s/__NODEPORT__/${NODEPORT}/g" kubernetes-deploy.yaml'
                         sh 'sed -i "s/__NAMESPACE__/${NAMESAPCE}/g" kubernetes-deploy.yaml'
                         sh 'kubectl apply -f kubernetes-deploy.yaml'
+                        sh 'kubectl rollout restart deployment -n ${NAMESAPCE} ${APP_NAME}'
                     }
                 }
             }
