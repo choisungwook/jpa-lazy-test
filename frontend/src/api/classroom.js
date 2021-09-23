@@ -1,10 +1,11 @@
-import http from "./http";
+import instance from "./http";
 
 /***
  * 반 생성
  */
 export async function create_classroom(classroom_name) {
-  return http.post(
+  console.log(instance);
+  return instance.post(
     "/api/v1/classroom/",
     {
       classroom_name,
@@ -20,7 +21,8 @@ export async function create_classroom(classroom_name) {
  * 반 전체 조회
  */
 export async function get_all() {
-  return http.get(
+  console.log(instance);
+  return instance.get(
     "/api/v1/classroom/",
     {},
     {
