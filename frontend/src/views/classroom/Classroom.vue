@@ -90,7 +90,9 @@ export default {
     create() {
       axios
         .get("/api/health")
-        .then(() => {
+        .then((response) => {
+          console.log(response);
+          console.log(response.data);
           console.log("ping success");
         })
         .catch((error) => {
@@ -100,8 +102,10 @@ export default {
 
       axios
         .get("/api/v1/classroom/")
-        .then(() => {
-          this.get_all();
+        .then((response) => {
+          console.log("succsss");
+          console.log(response.data);
+          // this.get_all();
         })
         .catch((error) => {
           console.log("get error");
