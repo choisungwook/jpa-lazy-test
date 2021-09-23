@@ -74,35 +74,35 @@ export default {
   }),
 
   methods: {
-    // create() {
-    //   classroom_api
-    //     .create_classroom(this.school_name)
-    //     .then((response) => {
-    //       console.log("생성성공");
-    //       console.log(response);
-    //       this.get_all();
-    //       console.log("\n");
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     })
-    //     .finally(() => {
-    //       this.dialog = false;
-    //     });
-    // },
     create() {
-      axios
-        .get("https://172.31.61.209:31111/api/v1/classroom/")
+      classroom_api
+        .create_classroom(this.school_name)
         .then((response) => {
+          console.log("생성성공");
           console.log(response);
-          console.log(response.data);
-          console.log("ping success");
+          this.get_all();
+          console.log("\n");
         })
         .catch((error) => {
-          console.log("ping failed");
           console.log(error);
+        })
+        .finally(() => {
+          this.dialog = false;
         });
     },
+    // create() {
+    //   axios
+    //     .get("https://172.31.61.209:31111/api/v1/classroom/")
+    //     .then((response) => {
+    //       console.log(response);
+    //       console.log(response.data);
+    //       console.log("ping success");
+    //     })
+    //     .catch((error) => {
+    //       console.log("ping failed");
+    //       console.log(error);
+    //     });
+    // },
     get_all() {
       classroom_api
         .get_all()
