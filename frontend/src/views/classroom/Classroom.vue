@@ -62,7 +62,7 @@
 
 <script>
 import * as classroom_api from "@/api/classroom";
-import axios from "axios";
+// import axios from "axios";
 
 export default {
   name: "Classroom",
