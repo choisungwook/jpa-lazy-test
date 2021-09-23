@@ -24,6 +24,7 @@ export default {
           console.log("\n");
         })
         .catch((error) => {
+          console.log("endpoint -> " + process.env.VUE_APP_ENDPOINT);
           console.log("ping failed");
           console.log(error);
         });
