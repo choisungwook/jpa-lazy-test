@@ -16,7 +16,14 @@ export default {
   methods: {
     healthcheck() {
       axios
-        .get("/api/health")
+        .get(
+          process.env.VUE_APP_ENDPOINT + "/health",
+          {},
+          {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json; charset = utf-8",
+          }
+        )
         .then((response) => {
           console.log("endpoint -> " + process.env.VUE_APP_ENDPOINT);
           console.log(response.data);
