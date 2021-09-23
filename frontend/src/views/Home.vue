@@ -17,7 +17,8 @@ export default {
     healthcheck() {
       axios
         .get(
-          process.env.VUE_APP_ENDPOINT + "/health",
+          // process.env.VUE_APP_ENDPOINT + "/health",
+          "/health",
           {},
           {
             "Access-Control-Allow-Origin": "*",
