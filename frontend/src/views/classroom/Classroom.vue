@@ -90,19 +90,6 @@ export default {
           this.dialog = false;
         });
     },
-    // create() {
-    //   axios
-    //     .get("https://172.31.61.209:31111/api/v1/classroom/")
-    //     .then((response) => {
-    //       console.log(response);
-    //       console.log(response.data);
-    //       console.log("ping success");
-    //     })
-    //     .catch((error) => {
-    //       console.log("ping failed");
-    //       console.log(error);
-    //     });
-    // },
     get_all() {
       classroom_api
         .get_all()
