@@ -39,7 +39,7 @@ class ClassroomControllerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        mockMvc.perform(post("/api/v1/classroom/")
+        mockMvc.perform(post("/api/v1/classroom")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
                 .andExpect(status().isCreated())
@@ -55,13 +55,13 @@ class ClassroomControllerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        mockMvc.perform(post("/api/v1/classroom/")
+        mockMvc.perform(post("/api/v1/classroom")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
                 .andExpect(status().isCreated())
                 .andDo(print());
 
-        mockMvc.perform(post("/api/v1/classroom/")
+        mockMvc.perform(post("/api/v1/classroom")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
                 .andExpect(status().is4xxClientError())
@@ -76,14 +76,14 @@ class ClassroomControllerTest {
         requestCreateClassroomDTO.setClassroom_name(classroom_name);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        mockMvc.perform(post("/api/v1/classroom/")
+        mockMvc.perform(post("/api/v1/classroom")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestCreateClassroomDTO)))
                 .andExpect(status().isCreated())
                 .andDo(print());
         
         // 전체조회
-        mockMvc.perform(get("/api/v1/classroom/")
+        mockMvc.perform(get("/api/v1/classrooms")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

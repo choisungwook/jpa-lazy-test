@@ -77,11 +77,8 @@ export default {
     create() {
       classroom_api
         .create_classroom(this.school_name)
-        .then((response) => {
-          console.log("생성성공");
-          console.log(response);
+        .then(() => {
           this.get_all();
-          console.log("\n");
         })
         .catch((error) => {
           console.log(error);
