@@ -1,6 +1,7 @@
 package com.sungwook.lazytest.service;
 
 import com.sungwook.lazytest.common.exceptions.FailValidation;
+import com.sungwook.lazytest.controller.dto.request.school.RequestCreateSchoolDTO;
 import com.sungwook.lazytest.entity.School;
 import com.sungwook.lazytest.repository.SchoolRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -29,20 +30,22 @@ class SchoolServiceTest {
     @DisplayName("학교 생성")
     public void CreateSchool(){
         String school_name = "school1";
+        RequestCreateSchoolDTO requestCreateSchoolDTO = new RequestCreateSchoolDTO(school_name);
 
         // 예외가 없으면 성공
-        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(school_name));
+        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(requestCreateSchoolDTO));
     }
 
     @Test
     @DisplayName("학교 중복생성 확인")
     public void CreateDuplicateSchool(){
         String school_name = "school1";
-        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(school_name));
+        RequestCreateSchoolDTO requestCreateSchoolDTO = new RequestCreateSchoolDTO(school_name);
+        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(requestCreateSchoolDTO));
 
         // 오류 발생시 성공
         Assertions.assertThrows(FailValidation.class,
-            () -> schoolService.CreateSchool(school_name)
+            () -> schoolService.CreateSchool(requestCreateSchoolDTO)
         );
     }
 
@@ -50,7 +53,8 @@ class SchoolServiceTest {
     @DisplayName("persistent context 쿼리문 실행 검사")
     public void IsPersistentcontextEqual(){
         String school_name = "school1";
-        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(school_name));
+        RequestCreateSchoolDTO requestCreateSchoolDTO = new RequestCreateSchoolDTO(school_name);
+        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(requestCreateSchoolDTO));
 
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         School find_school1 = schoolService.findByName(school_name);
@@ -70,7 +74,8 @@ class SchoolServiceTest {
     @Transactional
     public void IsPersistentcontextEqual2(){
         String school_name = "school1";
-        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(school_name));
+        RequestCreateSchoolDTO requestCreateSchoolDTO = new RequestCreateSchoolDTO(school_name);
+        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(requestCreateSchoolDTO));
 
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         School find_school1 = schoolService.findByName(school_name);

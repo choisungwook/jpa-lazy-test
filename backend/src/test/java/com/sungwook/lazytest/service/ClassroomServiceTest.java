@@ -3,6 +3,7 @@ package com.sungwook.lazytest.service;
 import com.sungwook.lazytest.common.exceptions.FailValidation;
 import com.sungwook.lazytest.controller.dto.request.RequestAddSchoolFromClassroomDTO;
 import com.sungwook.lazytest.controller.dto.request.RequestCreateClassroomDTO;
+import com.sungwook.lazytest.controller.dto.request.school.RequestCreateSchoolDTO;
 import com.sungwook.lazytest.entity.ClassRoom;
 import com.sungwook.lazytest.repository.ClassroomRepository;
 import com.sungwook.lazytest.repository.SchoolRepository;
@@ -80,7 +81,8 @@ class ClassroomServiceTest {
 
         // 학교 생성
         String school_name = "school1";
-        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(school_name));
+        RequestCreateSchoolDTO requestCreateSchoolDTO = new RequestCreateSchoolDTO(school_name);
+        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(requestCreateSchoolDTO));
 
         RequestAddSchoolFromClassroomDTO requset_dto = new RequestAddSchoolFromClassroomDTO();
         requset_dto.setClassroom_name(classroom_name);
@@ -114,7 +116,7 @@ class ClassroomServiceTest {
         // 학교 생성
         System.out.println("step2. school 생성 시작");
         String school_name = "school1";
-        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(school_name));
+        Assertions.assertDoesNotThrow(() -> schoolService.CreateSchool(new RequestCreateSchoolDTO(school_name)));
 
         RequestAddSchoolFromClassroomDTO requset_dto = new RequestAddSchoolFromClassroomDTO();
         requset_dto.setClassroom_name(classroom_name);

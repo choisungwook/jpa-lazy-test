@@ -2,6 +2,7 @@ package com.sungwook.lazytest.service;
 
 import com.sungwook.lazytest.common.exceptions.DataNotInDatabase;
 import com.sungwook.lazytest.common.exceptions.FailValidation;
+import com.sungwook.lazytest.controller.dto.request.school.RequestCreateSchoolDTO;
 import com.sungwook.lazytest.entity.School;
 import com.sungwook.lazytest.repository.SchoolRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,19 +18,19 @@ public class SchoolService {
 
     /***
      * 학교생성
-     * @param name
+     * @param requestCreateSchoolDTO
      */
 
     @Transactional
-    public Long CreateSchool(String name){
+    public Long CreateSchool(RequestCreateSchoolDTO requestCreateSchoolDTO){
         //step1 유효성 검사
-        if(!ValidCreateSchool(name)){
+        if(!ValidCreateSchool(requestCreateSchoolDTO.getName())){
             throw new FailValidation("이미 학교가 존재합니다.");
         }
 
         //step2 학교 생성
         School new_school = School.builder()
-                .name(name)
+                .name(requestCreateSchoolDTO.getName())
                 .build();
 
         School save_school = schoolRepository.save(new_school);
