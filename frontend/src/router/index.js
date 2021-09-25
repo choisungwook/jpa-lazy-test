@@ -6,27 +6,27 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/lazy/",
+    path: "/",
     name: "Home",
     component: DefaultLayout,
     children: [
       {
-        path: "/lazy/school",
+        path: "/school",
         name: "school",
         component: () => import("@/views/school/School.vue"),
       },
       {
-        path: "/lazy/classroom",
+        path: "/classroom",
         name: "classroom",
         component: () => import("@/views/classroom/Classroom.vue"),
       },
       {
-        path: "/lazy/home",
+        path: "/home",
         name: "home",
         component: () => import("@/views/Home.vue"),
       },
       {
-        path: "/lazy/helloworld",
+        path: "/helloworld",
         name: "helloworld",
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/Helloworld.vue"),
@@ -37,7 +37,8 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
+  base: "/lazy",
   routes,
 });
 
