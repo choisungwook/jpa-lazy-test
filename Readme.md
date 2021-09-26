@@ -7,7 +7,7 @@
 ```conf
 upstream Frontend {
     # 변경 -> front svc nodeport
-    server http://127.0.0.1:31023;
+    server 127.0.0.1:31023;
 }
 
 server {
