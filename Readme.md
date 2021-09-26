@@ -13,7 +13,7 @@ upstream Frontend {
 server {
     listen       80;
     # <변경> -> 도메인
-    server_name  myproject.choicloudlab.com/lazy;
+    server_name  http://youtubetest.choicloudlab.com;
 
     location / {
         proxy_hide_header Access-Control-Allow-Origin;
