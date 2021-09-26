@@ -5,38 +5,15 @@
 
 # nginx 설정
 ```conf
+upstream Frontend {
+    # 변경 -> front svc nodeport
+    server http://127.0.0.1:31023;
+}
+
 server {
     listen       80;
     # <변경> -> 도메인
     server_name  myproject.choicloudlab.com/lazy;
-
-    # SSL 설정
-    ssl on;
-    # <변경> -> cert 인증서 위치
-    ssl_certificate /etc/lets_encrypt/cert.pem;
-    # <변경> -> 인증서 key 위치
-    ssl_certificate_key /etc/lets_encrypt/cert_key.pem;
-    ssl_prefer_server_ciphers on;
-    ssl_session_timeout 5m;
-
-    location / {
-        return 301 https://$server_name$request_uri;
-    }
-}
-
-server {
-    listen       443;
-    # <변경> -> 도메인
-    server_name  myproject.choicloudlab.com;
-
-    # SSL 설정
-    ssl on;
-    # <변경> -> cert 인증서 위치
-    ssl_certificate /etc/lets_encrypt/cert.pem;
-    # <변경> -> 인증서 key 위치
-    ssl_certificate_key /etc/lets_encrypt/cert_key.pem;
-    ssl_prefer_server_ciphers on;
-    ssl_session_timeout 5m;
 
     location / {
         proxy_hide_header Access-Control-Allow-Origin;
@@ -48,8 +25,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
 
         # <변경> -> frontend nodeport
-        proxy_pass "http://127.0.0.1:31023";
+        proxy_pass http://Frontend;
     }
 }
-
 ```
