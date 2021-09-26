@@ -1,24 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myproject-school-frontend
+  name: __APP_NAME__
   namespace: __NAMESPACE__
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myproject-school-frontend
+      app: __APP_NAME__
   template:
     metadata:
       labels:
-        app: myproject-school-frontend
+        app: __APP_NAME__
     spec:
-      hostAliases:
-        - ip: "172.31.61.209"
-          hostnames:
-            - "jpaschool-backend.choicloudlab.com"
       containers:
-        - name: myproject-school-frontend
+        - name: __APP_NAME__
           image: __IMAGE_NAME__
           resources:
             limits:
@@ -36,11 +32,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: myproject-school-frontend
+  name: __APP_NAME__
   namespace: __NAMESPACE__
 spec:
   selector:
-    app: myproject-school-frontend
+    app: __APP_NAME__
   ports:
   - port: 80
     targetPort: 80
