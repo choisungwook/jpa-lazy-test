@@ -47,7 +47,6 @@ pipeline {
                         sh 'sed -i "s/__NAMESPACE__/${NAMESAPCE}/g" kubernetes-deploy.yaml'
                         sh 'sed -i "s/__APP_NAME__/${APP_NAME}/g" kubernetes-deploy.yaml'
                         sh 'kubectl apply -f kubernetes-deploy.yaml'
-                        sh 'kubectl rollout restart deployment -n ${NAMESAPCE} ${APP_NAME}'
                     }
                 }
             }
