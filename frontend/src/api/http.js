@@ -1,15 +1,7 @@
 import axios from "axios";
 
-let url = "";
-
-if (process.env.VUE_APP_ROUTER_PREFIX === "") {
-  url = process.env.VUE_APP_ENDPOINT;
-} else {
-  url = process.env.VUE_APP_ROUTER_PREFIX;
-}
-
 const instance = axios.create({
-  baseURL: url,
+  baseURL: process.env.VUE_APP_ROUTER_PREFIX,
 });
 
 export default instance;
